@@ -60,6 +60,9 @@ Thiết kế giao diện với Streamlit để có thể:
 - Chọn lựa hệ số K cho K-Fold cross validation: Ví dụ K =4
 - Nút "Run" để tiến hành chạy và đánh giá thuật toán
 Output sẽ là biểu đồ cột hiển thị các kết quả sử dụng độ đo MAE và MSE. Lưu ý: Train/Test split và K-Fold cross validation được thực hiện độc lập, chỉ chọn 1 trong hai phương pháp này.
+
+`Open pipenv:` pipenv shell (. /home/"username"/.local/share/virtualenvs/Bai_tap_5-wNg7D3_V/bin/activate)
+
 ### Bài tập 6 - Logistic Regression với Streamlit
 Sử dụng Streamlit để làm giao diện ứng dụng theo gợi ý trên lớp lý thuyết.
 
