@@ -5,32 +5,21 @@ from sklearn.model_selection import train_test_split
 import seaborn as sb
 from mpl_toolkits import mplot3d
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import MaxAbsScaler
+from sklearn.preprocessing import StandardScaler
 import numpy as np 
-
-
-def normalize(x, x_max):
-    return x/x_max
 
 
 data, target = datasets.load_iris(return_X_y=True, as_frame=True)
 
 X_train, X_test, Y_train, Y_test = train_test_split(data, target, train_size=0.7, random_state=1)
 
-# X_train = normalize(X_train, X_train.max(axis = 0))
-# # X_test = normalize(X_test)
-# X_test = normalize(X_test, X_train.max(axis = 0))
+print("X_train default: \n", X_train)
 
-scaler = MaxAbsScaler()
-scaler.fit(X_train)
+scaler = StandardScaler().fit(X_train)
 X_train = pd.DataFrame(scaler.transform(X_train))
 X_test = pd.DataFrame(scaler.transform(X_test))
 
-
-print(type(data))
-print(data)
-print(type(target))
-print(target)
+print("X_train transform: \n", X_train)
 
 #Tìm các đặc trưng tương quan, để trực quan hoá được hiệu quả
 
@@ -38,11 +27,8 @@ dataplot = sb.heatmap(X_train.corr(), cmap="YlGnBu", annot=True)
 plt.title("Tuong quan giua cac feature")
 plt.show() 
 
-def scatter2d(X, Y, x, y):
-    plt.scatter(X.iloc[:, x], X[:, y], c=Y)
-
 plt.scatter(X_train.iloc[:, 0], X_train.iloc[:, 2], c=Y_train)
-plt.title("Plot hai dac trung sepal length va petal length")
+plt.title("Plot X_train.iloc[: ,1] va Y_train")
 plt.show()
 
 plt.scatter(X_train.iloc[:, 3], X_train.iloc[:, 2], c=Y_train)
