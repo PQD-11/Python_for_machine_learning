@@ -3,18 +3,18 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
 from sklearn.metrics import precision_score, recall_score, f1_score, log_loss
 
 st.set_page_config(
-    page_title="Bài tập 5: Linear Regression với Streamlit", initial_sidebar_state="expanded"
+    page_title="Bài tập 6: Logistic Regression với Streamlit", initial_sidebar_state="expanded"
 )
 
 st.write(
     """
-# Linear Regression
+# Logistic Regression
 #### Sinh viên: Phạm Quốc Đăng
 #### MSSV: 19520036
 """
@@ -96,14 +96,12 @@ if uploaded_file:
         Y = y_data.to_numpy()
         if method_test == "Train/Test split":
             x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size = value_slider, random_state=None)
-            model = LinearRegression().fit(x_train, y_train)
+            model = LogisticRegression().fit(x_train, y_train)
             y_pred = model.predict(x_test)
-            y_pred = np.absolute(y_pred)
-            # y_test = y_test.to_numpy()
             
-            precision = precision_score(y_test, y_pred.round(), average='macro')
-            recall = recall_score(y_test, y_pred.round(), average='macro')
-            f1 = f1_score(y_test, y_pred.round(), average='macro')
+            precision = precision_score(y_test, y_pred, average='macro')
+            recall = recall_score(y_test, y_pred, average='macro')
+            f1 = f1_score(y_test, y_pred, average='macro')
             logloss = log_loss(y_test, y_pred)
                         
             plt.figure(figsize=(8,4))
@@ -125,14 +123,14 @@ if uploaded_file:
             recall = []
             f1 = []
             logloss = []
-            for train_index, test_index in kf.split(X):
+            for train_index, test_index in kf.split(X, Y):
                 X_train, X_test = X[train_index, :], X[test_index, :]
                 Y_train, Y_test = Y[train_index], Y[test_index]
-                model = LinearRegression().fit(X_train, Y_train)
+                model = LogisticRegression().fit(X_train, Y_train)
                 Y_pred = model.predict(X_test)
-                precision.append(precision_score(Y_test, Y_pred.round(), average='macro'))
-                recall.append(recall_score(Y_test, Y_pred.round(), average='macro'))
-                f1.append(f1_score(Y_test, Y_pred.round(), average='macro'))
+                precision.append(precision_score(Y_test, Y_pred, average='macro'))
+                recall.append(recall_score(Y_test, Y_pred, average='macro'))
+                f1.append(f1_score(Y_test, Y_pred, average='macro'))
                 logloss.append(log_loss(Y_test, Y_pred))
             
             plt.figure(figsize=(8,4))
